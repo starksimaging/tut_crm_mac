@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+<h1>REGISTER</h1>
+</div>
+
+<form method="post" action="{% url 'register' %}">
+{% csrf_token %}
+
+{% if form.errors %}
+
+
+    <div class="alert alert-danger" role="alert">
+        Invalid Form
+        {% for field in form %}
+            {% for error in field.errors %}
+                {{ field.label_tag }}: {{ field.errors }}
+            {% endfor %}
+        {% endfor %}
+       
+    </div>
+
+{% endif %}
+
+
+{{ form.as_p }}
+<br>
+<button type="submit" class="btn btn-primary">submit</button>
+
+
+</form>
+
+
+
+
+
+
+{% endblock %}

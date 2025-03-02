@@ -11,7 +11,10 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a> # This is the logout link
           </li>         
-          {% else %}                                                   # This is the else statement that will be executed if the user is not authenticated         
+          {% else %} 
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>    
+          </li>                                                  
           <li class="nav-item">
             <a class="nav-link" href="{% url 'home' %}">Login</a>
           </li>
