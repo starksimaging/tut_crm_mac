@@ -2,9 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import RegistrationForm
+from . models import Client
 
 # Create your views here.
 def home(request):
+# Grab all client records from the database
+    clients = Client.objects.all()
+
     # check if the user is logged in
     if request.method == 'POST':
         username = request.POST['username']
@@ -21,8 +25,8 @@ def home(request):
             messages.error(request, 'Invalid username or password')
             return redirect('home')
     else:
-        return render(request, 'home.html', {})
-  
+        return render(request, 'home.html', {'clients': clients})   # add the clients in quotation marks then pass the clients reference with the clients variable
+                                                                    # through this we will send all the client data to the home page.
 
 
 

@@ -1,12 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="col-md offest-md-3">
+
+
+
     {% if user.is_authenticated %}
 
-    <h1>Welcome Jon</h1>
+      <h1>Client List</h1>
+      # This table from Bootstraap Docs
+      <table class="table table-primary table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">City</th>
+            <th scope="col">Created at</th>
+            <th scope="col">ID</th>
+          </tr>
+        </thead>
+        <tbody class="table table-striped">
+          <tr>
+            {% if clients %}
+              {% for client in clients %}
+    
+                 <td>{{ client.full_name }}</td> 
+                <td>{{ client.email }}</td>
+                <td>{{ client.phone }}</td>
+                <td>{{ client.city }}</td>
+                <td>{{ client.date_created }}</td>
+                <td>{{ client.id }}</td> 
+                  </tr>
+              {% endfor %}
+            {% endif %}
+          
+        </tbody>
+      </table>
 
-    {% else %}
+        
+
+        
+
+      {% else %}
+
     <h1>Login</h1>
     <br>
     <form method="post" action="{% url 'home' %}">
