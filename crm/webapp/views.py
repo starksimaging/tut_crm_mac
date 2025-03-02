@@ -58,3 +58,13 @@ def register_view(request):
     return render(request, 'register.html', {'form': form})
 
 
+def client(request, pk):
+    if request.user.is_authenticated:
+        # look up specific client data from the database
+        client_record = Client.objects.get(id=pk)
+        return render(request, 'client.html', {'client_record': client_record})
+    else:
+        messages.success(request, 'You need to login first')
+        return redirect('home')
+
+
