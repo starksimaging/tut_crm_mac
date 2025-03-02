@@ -68,3 +68,13 @@ def client(request, pk):
         return redirect('home')
 
 
+def client_delete(request, pk):
+    if request.user.is_authenticated:
+        delete_record = Client.objects.get(id=pk)
+        delete_record.delete()
+        messages.success(request, 'You have successfully deleted...')
+        return redirect('home')
+    else:
+        messages.success(request, 'You have to login first')
+        return redirect('home')
+
