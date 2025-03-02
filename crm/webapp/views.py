@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import RegistrationForm
+from .forms import RegistrationForm, AddClientForm
 from . models import Client
 
 # Create your views here.
@@ -77,4 +77,23 @@ def client_delete(request, pk):
     else:
         messages.success(request, 'You have to login first')
         return redirect('home')
+    
+    
+def add_client(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = AddClientForm(request.POST)
+            if form.is_valid():
+                add_client = form.save()
+                messages.success(request, 'New client added...')
+                return redirect('home')
+            # If form is not valid, we'll fall through to render with the form containing errors
+        else:
+            form = AddClientForm()  # Create a blank form for GET requests
+        
+        return render(request, 'add_client.html', {'form': form})
+    else:
+        messages.success(request, 'You have to log in to add new record...')
+        return redirect('home')
+
 

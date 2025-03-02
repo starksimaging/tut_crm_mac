@@ -6,7 +6,11 @@
 
     {% if user.is_authenticated %}
 
-      <h1>Client List</h1>
+      <h1>Client List</h1><br>
+      <p>
+        <a href="{% url 'add_client'%}" class="btn btn-primary">Add New</a><br>
+      </p>
+
       <!-- This table from Bootstraap Docs -->
       <table class="table table-primary table-hover">  
         <thead>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+
+<h1>Add New Client</h1>
+
+<form method="POST" action="{% url 'add_client' %}">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+
+    <br>
+    <button type="submit" class="btn btn-secondary">Register</button>
+</form>
+{% endif %}
+
+
+{% endblock %}
