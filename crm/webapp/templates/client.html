@@ -3,15 +3,18 @@
 
 
 <h1>Client Details Page</h1>
+<!-- Bootstrap card -->
 
-
-
-{{ client_record.full_name }} <br>
-{{ client_record.email }} <br>   
-{{ client_record.phone }} <br>   
-{{ client_record.city }} <br>
-{{ client_record.date_created }} <br>
-{{ client_record.id }} <br>
+ 
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{ client_record.full_name }}</h5>
+      <p class="card-text">{{ client_record.phone }}</p>
+      <p class="card-text">{{ client_record.city }}</p>
+      <p class="card-text">{{ client_record.email }}</p>
+      <a href="{% url 'home' %}" class="btn btn-primary">Go Back</a>
+    </div>
+  </div>
 
 {% endblock %}
 
