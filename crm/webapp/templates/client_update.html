@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+
+<h1>Add New Client</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+
+    <br>
+    <button type="submit" class="btn btn-secondary">Update</button>
+</form>
+{% endif %}
+
+
+{% endblock %}
