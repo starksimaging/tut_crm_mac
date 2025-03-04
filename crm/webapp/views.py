@@ -5,21 +5,26 @@ from .forms import RegistrationForm, AddClientForm
 from . models import Client, Product
 from django.core.mail import send_mail
 from .forms import AddProductForm
-
+from django.db.models import Sum, Count
 
 # Create your views here.
 def home(request):
-# Grab all client records from the database
+    # Grab all client records from the database
     clients = Client.objects.all()
 
-    # check if the user is logged in
+    # Aggregate calculations
+    total_revenue = Product.objects.aggregate(Sum('price'))['price__sum'] or 0
+    total_clients = Client.objects.count()
+    total_products_sold = Product.objects.count()
+
+    # Check if the user is logging in
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        # authenticate the user
+        
+        # Authenticate the user
         user = authenticate(request, username=username, password=password)
 
-        # if the user is authenticated
         if user is not None:
             login(request, user)
             messages.success(request, 'You have been logged in successfully')
@@ -27,10 +32,14 @@ def home(request):
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('home')
-    else:
-        return render(request, 'home.html', {'clients': clients})   # add the clients in quotation marks then pass the clients reference with the clients variable
-                                                                    # through this we will send all the client data to the home page.
-
+    
+    # Render the homepage with aggregated sales data
+    return render(request, 'home.html', {
+        'clients': clients,
+        'total_revenue': total_revenue,
+        'total_clients': total_clients,
+        'total_products_sold': total_products_sold
+    })
 
 
 # This function is used to authenticate the user and log them in.
@@ -138,6 +147,16 @@ def add_product(request, client_id):
             # Send mail
             subject = 'Thank You fo rYour Purchase!'
             send_mail(subject, messages, "Product purchase added and email sent!")
+
+            # Corrected send_mail function with all required arguments
+            send_mail(
+                subject,
+                messages,
+                "your_email@example.com",  # Replace with a valid sender email
+                [client.email],  # The recipient list should be a list, even for one email
+                fail_silently=False,  # (Optional) Raise error if email fails
+            )
+
             return redirect('products_purchased', pk=client.id)
     else:
         form = AddProductForm()
