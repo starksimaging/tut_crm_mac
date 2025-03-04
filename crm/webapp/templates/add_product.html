@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add Pruduct Purchase for {{ client.full_name }}</h1>
+
+<form action="">method=POST>
+    {% csrf_token %}
+    {{ form.as_p }
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+{% endif %}
+
+
+{% endblock %}

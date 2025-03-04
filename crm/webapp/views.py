@@ -1,8 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import RegistrationForm, AddClientForm
-from . models import Client
+from . models import Client, Product
+from django.core.mail import send_mail
+from .forms import AddProductForm
+
 
 # Create your views here.
 def home(request):
@@ -110,3 +113,35 @@ def client_update(request, pk):
     else:
         messages.success(request, 'You have to login...')
         return redirect('home')
+    
+# for Product 
+def products_purchased(request, pk):
+    if request.user.is_authenticated:
+        client = get_object_or_404(Client, id=pk)
+        products = Product.objects.filter(client=client)
+        return render(request, 'products.html', {'client': client, 'products': products})
+    else:
+        messages.error(request, 'You need to log in to view purchases...')
+        return redirect('home')
+    
+
+
+def add_product(request, client_id):
+    client = Client.objects.get(id=client_id)
+    if request.method == 'POST':
+        form= AddProductForm(request.POST)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.client = client
+            product.save()
+
+            # Send mail
+            subject = 'Thank You fo rYour Purchase!'
+            send_mail(subject, messages, "Product purchase added and email sent!")
+            return redirect('products_purchased', pk=client.id)
+    else:
+        form = AddProductForm()
+    return render(request, 'add_product.html', {'form': form, 'client': client})
+
+
+

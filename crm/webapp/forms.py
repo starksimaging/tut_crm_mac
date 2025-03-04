@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from . models import Client
+from . models import Client, Product
 
 
 class RegistrationForm(UserCreationForm):
@@ -40,3 +40,8 @@ class AddClientForm(forms.ModelForm):
     class Meta:
         model = Client
         exclude = ('user',)
+
+class AddProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['product_name', 'price']
