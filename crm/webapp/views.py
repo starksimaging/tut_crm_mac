@@ -164,3 +164,21 @@ def add_product(request, client_id):
 
 
 
+#  add product view function
+def add_product(request):
+    if request.method == 'POST':
+        form = AddProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product added successfully')
+            return redirect('home')
+    else:
+        form = AddProductForm()
+    return render(request, 'add_product.html', {'form': form})
+
+
+# Inventory view function
+def inventory(request):
+    products = Product.objects.all()
+    return render(request, 'inventory_html', {'products': products})
+
