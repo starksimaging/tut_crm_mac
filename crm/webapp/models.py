@@ -31,7 +31,7 @@ class Product(models.Model):
         
 
         def __str__(self):
-            return f"{self.product_name} for {self.client.full_name} - ${self.price}"   
+            return f"product for {self.client.full_name} price {self.price}"   
         
 
 

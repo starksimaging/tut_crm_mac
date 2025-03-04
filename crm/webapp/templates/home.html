@@ -6,35 +6,6 @@
 
     {% if user.is_authenticated %}
 
-    <h1>Dashboard</h1>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-header">Total Revenue</div>
-                <div class="card-body">
-                    <h5 class="card-title">${{ total_revenue }}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-header">Total Clients</div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ total_clients }}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-warning mb-3">
-                <div class="card-header">Total Products Sold</div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ total_products_sold }}</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
       <h1>Client List</h1><br>
       <p>
         <a href="{% url 'add_client'%}" class="btn btn-primary">Add New</a><br>
